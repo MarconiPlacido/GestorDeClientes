@@ -5,11 +5,11 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore
-RUN dotnet publish GestorDeClientes.csproj -c Release -o /app/publish
+RUN dotnet restore API/GestorDeClientes.api.csproj
+RUN dotnet publish API/GestorDeClientes.api.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:8080
-ENTRYPOINT ["dotnet", "GestorDeClientes.dll"]
+ENTRYPOINT ["dotnet", "GestorDeClientes.api.dll"]
